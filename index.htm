@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ShewyPrices</title>
+    <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/4.11.0/firebase-firestore.js"></script>
+		<!-- Compiled and minified CSS -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+	<link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+	<div class="navbar-fixed">
+		<nav>
+			<a href="#" class="brand-logo center">Shewy-Services</a>
+		</nav>
+	</div>
+	<div class="container" id="app">
+		<div class="row">
+		<div class="col l4 s12">
+			<form @submit.prevent="addNewService">
+				<div class="input-field">
+					<label for="n">Servicio</label>
+					<input type="text" id="n" v-model="fieldsForm.name" placeholder="nombre">
+				</div>
+				<div class="input-field">
+					<label for="p">Precio del servicio</label>
+					<input type="number"  id="p" v-model="fieldsForm.price" placeholder="valor unitario">
+				</div>
+				<div class="input-field">
+					<label for="d">Description</label>
+					<textarea id="d" class="materialize-textarea" v-model="fieldsForm.description" placeholder="Detalles"></textarea>
+				</div>
+				<button class="btn orange" type="submit" v-show="!edit">Registrar servicio</button>
+			</form>
+		<div v-show="edit">
+			<button class="btn yellow darken-1 update" type="submit" @click="updateData()">Actualizar</button>
+			<button class="btn red cancel" @click="calcelUpdate">Cancelar</button>
+		</div>
+		</div>
+		<div class="col l8 s12">
+			<div class="input-field">
+				<label for="searching" disabled>Buscar servicio.</label>
+				<input type="search" id="searching">
+			</div>
+			  <table>
+						<thead>
+							<tr>
+								<th>Servicio</th>
+								<th>Descripción</th>
+								<th>Precio</th>
+								<th>Eliminar</th>
+								<th>Editar</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="(service, index) in prices">
+								<td>{{ service.data().name }}</td>
+								<td>{{ service.data().description }}</td>
+								<td>$ {{ service.data().price }}</td>
+								<td><button class="btn red" @click="removeDataForID(service.id, service.data().name)">
+									<i class="material-icons">delete</i>
+								</button></td>
+								<td><button class="btn  yellow darken-1" @click="viewEditData(service.id, service.data().name, service.data().description, service.data().price)">
+									<i class="material-icons">mode_edit</i>
+								</button>
+							</td>
+							</tr>
+						</tbody>
+					</table>
+			</div>
+		</div>
+	</div>
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+<script src="app.js"></script>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+</body>
+</html>
