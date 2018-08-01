@@ -92,4 +92,3 @@ new Vue({
     }
   }
 })
-  console.log('Run');
